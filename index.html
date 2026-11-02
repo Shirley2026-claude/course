@@ -691,32 +691,27 @@
 </div><!-- .main -->
 
 <script>
-  /* ── Data ── */
-  const csvData = `customer,amount,due_date
-Tan Trading,1200,2026-10-01
-Lim Florist,450,2026-10-12
-Ong Bakery,980,2026-09-25
-Koh Events,2300,2026-10-20
-Wong Printing,610,2026-10-05
-Ng Catering,1750,2026-09-30
-Lee Motors,4100,2026-10-08
-Teo Logistics,1500,2026-09-28`;
+  /* ── Supabase config ── */
+  const SUPABASE_URL = 'https://louabsvdxzqinplaevyr.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_uQhyG0_Qyn62YY3SpxyF-Q_f0RduVO1';
 
-  function parseCSV(text) {
-    const [, ...rows] = text.trim().split('\n');
-    return rows.map((line, i) => {
-      const [customer, amount, due_date] = line.split(',');
-      return {
-        id: 'inv-' + i,
-        num: 'INV-' + String(100 + i).padStart(3, '0'),
-        customer: customer.trim(),
-        amount: parseFloat(amount),
-        due_date: due_date.trim()
-      };
+  function sbFetch(path, options = {}) {
+    const { prefer, ...rest } = options;
+    return fetch(SUPABASE_URL + path, {
+      ...rest,
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        ...(prefer ? { 'Prefer': prefer } : {}),
+        ...(rest.headers || {})
+      }
     });
   }
 
-  let invoices = parseCSV(csvData);
+  /* ── App state ── */
+  let invoices = [];
+  let loading = true;
 
   /* paid-this-month accumulator – tracks amounts resolved in this session */
   let paidThisMonth = { count: 0, amount: 0 };
@@ -891,6 +886,7 @@ Teo Logistics,1500,2026-09-28`;
 
   /* ── Main render ── */
   function render() {
+    if (loading) return;
     const overdue = invoices
       .filter(inv => daysLate(inv.due_date) > 0)
       .sort((a, b) => daysLate(b.due_date) - daysLate(a.due_date));
@@ -952,7 +948,7 @@ Teo Logistics,1500,2026-09-28`;
           ${late}d late
         </div>
         <div class="invoice-amount">${fmtSGD(inv.amount)}</div>
-        <button class="btn-resolve" data-id="${inv.id}" data-amount="${inv.amount}">
+        <button class="btn-resolve" data-id="${inv.id}" data-db-id="${inv.dbId}" data-amount="${inv.amount}">
           <svg viewBox="0 0 11 11"><polyline points="1.5,6 4,8.5 9.5,2.5"/></svg>
           Resolve
         </button>
@@ -961,11 +957,14 @@ Teo Logistics,1500,2026-09-28`;
     });
 
     listEl.querySelectorAll('.btn-resolve').forEach(btn => {
-      btn.addEventListener('click', () => markPaid(btn.dataset.id, parseFloat(btn.dataset.amount)));
+      btn.addEventListener('click', () =>
+        markPaid(btn.dataset.id, parseInt(btn.dataset.dbId, 10), parseFloat(btn.dataset.amount))
+      );
     });
   }
 
-  function markPaid(id, amount) {
+  /* ── Mark paid: optimistic UI + Supabase update ── */
+  async function markPaid(id, dbId, amount) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add('paid-out');
@@ -975,6 +974,67 @@ Teo Logistics,1500,2026-09-28`;
       invoices = invoices.filter(inv => inv.id !== id);
       render();
     }, 230);
+
+    try {
+      const res = await sbFetch('/rest/v1/invoices?id=eq.' + dbId, {
+        method: 'PATCH',
+        prefer: 'return=minimal',
+        body: JSON.stringify({ paid: true, paid_at: new Date().toISOString() })
+      });
+      if (!res.ok) console.error('Supabase update failed:', res.status);
+    } catch (err) {
+      console.error('Network error on markPaid:', err);
+    }
+  }
+
+  /* ── Load invoices from Supabase ── */
+  function showLoading(on) {
+    loading = on;
+    let el = document.getElementById('loadingState');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'loadingState';
+      el.style.cssText = 'text-align:center;padding:40px 16px;color:var(--fg-2);font-size:13px;';
+      el.textContent = 'Loading invoices…';
+      document.getElementById('invoiceList').before(el);
+    }
+    el.hidden = !on;
+    if (on) {
+      document.getElementById('invoiceList').style.display = 'none';
+      document.getElementById('emptyState').hidden = true;
+    } else {
+      document.getElementById('invoiceList').style.display = '';
+    }
+  }
+
+  async function loadInvoices() {
+    showLoading(true);
+    try {
+      const res = await sbFetch('/rest/v1/invoices?select=*&paid=eq.false&order=due_date.asc');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      invoices = data.map(row => ({
+        id: 'inv-' + row.id,
+        dbId: row.id,
+        num: row.num,
+        customer: row.customer,
+        amount: parseFloat(row.amount),
+        due_date: row.due_date   /* "YYYY-MM-DD" from Supabase */
+      }));
+    } catch (err) {
+      console.error('Failed to load invoices:', err);
+      let errEl = document.getElementById('errorState');
+      if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.id = 'errorState';
+        errEl.style.cssText = 'padding:14px 16px;background:var(--critical-bg,#fff1f0);border:1px solid var(--critical-border,#fca5a5);border-radius:8px;color:var(--critical-label,#b91c1c);font-size:12px;margin-bottom:12px;';
+        document.getElementById('invoiceList').before(errEl);
+      }
+      errEl.textContent = '⚠ Could not load data from Supabase. Check your RLS policies and anon key.';
+      errEl.hidden = false;
+    }
+    showLoading(false);
+    render();
   }
 
   /* ── Init ── */
@@ -982,5 +1042,5 @@ Teo Logistics,1500,2026-09-28`;
     day: 'numeric', month: 'long', year: 'numeric'
   });
 
-  render();
+  loadInvoices();
 </script>
