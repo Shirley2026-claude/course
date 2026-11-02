@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
 <style>
+  /* ── Design tokens ── */
   :root {
     --sidebar-bg: #1c1c1e;
     --sidebar-fg: #a1a1aa;
@@ -37,12 +38,22 @@
     --major-label: #ea580c;
     --major-badge-bg: #ffedd5;
 
-    --minor-bg: #ffffff;
     --minor-label: #71717a;
     --minor-badge-bg: #f4f4f5;
 
-    --paid-label: #16a34a;
-    --paid-badge-bg: #dcfce7;
+    /* Dataviz tokens – single-series sequential blue (palette slot 1) */
+    --viz-surface: #ffffff;
+    --viz-bar: #2a78d6;
+    --viz-bar-hover: #1c5cab;
+    --viz-grid: #e4e4e7;
+    --viz-axis-label: #71717a;
+    --viz-text: #18181b;
+    --viz-tooltip-bg: #18181b;
+    --viz-tooltip-fg: #f4f4f5;
+
+    /* paid-this-month accent */
+    --paid-fg: #16a34a;
+    --paid-bg: #dcfce7;
 
     color-scheme: light;
   }
@@ -81,12 +92,20 @@
       --major-label: #fb923c;
       --major-badge-bg: #431407;
 
-      --minor-bg: #1c1c1e;
       --minor-label: #71717a;
       --minor-badge-bg: #27272a;
 
-      --paid-label: #4ade80;
-      --paid-badge-bg: #052e16;
+      --viz-surface: #1c1c1e;
+      --viz-bar: #3987e5;
+      --viz-bar-hover: #2a78d6;
+      --viz-grid: #27272a;
+      --viz-axis-label: #a1a1aa;
+      --viz-text: #fafafa;
+      --viz-tooltip-bg: #fafafa;
+      --viz-tooltip-fg: #18181b;
+
+      --paid-fg: #4ade80;
+      --paid-bg: #052e16;
 
       color-scheme: dark;
     }
@@ -125,12 +144,20 @@
     --major-label: #fb923c;
     --major-badge-bg: #431407;
 
-    --minor-bg: #1c1c1e;
     --minor-label: #71717a;
     --minor-badge-bg: #27272a;
 
-    --paid-label: #4ade80;
-    --paid-badge-bg: #052e16;
+    --viz-surface: #1c1c1e;
+    --viz-bar: #3987e5;
+    --viz-bar-hover: #2a78d6;
+    --viz-grid: #27272a;
+    --viz-axis-label: #a1a1aa;
+    --viz-text: #fafafa;
+    --viz-tooltip-bg: #fafafa;
+    --viz-tooltip-fg: #18181b;
+
+    --paid-fg: #4ade80;
+    --paid-bg: #052e16;
 
     color-scheme: dark;
   }
@@ -181,92 +208,52 @@
   }
 
   .sidebar-brand-icon svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: #fff;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 16px; height: 16px;
+    fill: none; stroke: #fff;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   }
 
   .sidebar-brand-name {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 12px; font-weight: 600;
     color: var(--sidebar-fg-active);
-    letter-spacing: -0.01em;
-    line-height: 1.3;
+    letter-spacing: -0.01em; line-height: 1.3;
   }
 
   .sidebar-brand-sub {
-    font-size: 11px;
-    color: var(--sidebar-fg);
-    margin-top: 2px;
+    font-size: 11px; color: var(--sidebar-fg); margin-top: 2px;
   }
 
-  .sidebar-nav {
-    padding: 10px 8px;
-    flex: 1;
-  }
+  .sidebar-nav { padding: 10px 8px; flex: 1; }
 
   .nav-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
     color: var(--sidebar-fg);
-    padding: 8px 8px 4px;
-    opacity: 0.6;
+    padding: 8px 8px 4px; opacity: 0.6;
   }
 
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 8px;
-    border-radius: 6px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 8px; border-radius: 6px;
     color: var(--sidebar-fg);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.1s, color 0.1s;
-    margin-bottom: 1px;
-    user-select: none;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: background 0.1s, color 0.1s;
+    margin-bottom: 1px; user-select: none;
   }
 
-  .nav-item svg {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  .nav-item:hover {
-    background: var(--sidebar-hover);
-    color: var(--sidebar-fg-active);
-  }
-
+  .nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
+  .nav-item:hover { background: var(--sidebar-hover); color: var(--sidebar-fg-active); }
   .nav-item:hover svg { opacity: 1; }
-
-  .nav-item.active {
-    background: var(--sidebar-active-bg);
-    color: var(--sidebar-fg-active);
-  }
-
+  .nav-item.active { background: var(--sidebar-active-bg); color: var(--sidebar-fg-active); }
   .nav-item.active svg { opacity: 1; }
 
   .nav-badge {
     margin-left: auto;
-    background: var(--accent);
-    color: var(--accent-fg);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 99px;
-    min-width: 18px;
-    text-align: center;
-    line-height: 16px;
-    height: 16px;
+    background: var(--accent); color: var(--accent-fg);
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 99px;
+    min-width: 18px; text-align: center;
+    line-height: 16px; height: 16px;
   }
 
   .sidebar-footer {
@@ -274,186 +261,188 @@
     border-top: 1px solid var(--sidebar-border);
   }
 
-  /* ── Main area ── */
+  /* ── Main ── */
   .main {
-    flex: 1;
-    background: var(--main-bg);
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 100vh;
+    flex: 1; background: var(--main-bg);
+    display: flex; flex-direction: column;
+    min-width: 0; min-height: 100vh;
   }
 
-  /* ── Top bar ── */
+  /* ── Topbar ── */
   .topbar {
     background: var(--topbar-bg);
     border-bottom: 1px solid var(--topbar-border);
-    padding: 0 24px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 0 24px; height: 56px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 16px;
+    flex-shrink: 0; position: sticky; top: 0; z-index: 20;
   }
 
-  .topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    min-width: 0;
-  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; min-width: 0; }
 
   .topbar-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--fg);
-    white-space: nowrap;
-    letter-spacing: -0.01em;
+    font-size: 14px; font-weight: 600;
+    color: var(--fg); white-space: nowrap; letter-spacing: -0.01em;
   }
 
-  .topbar-date {
-    font-size: 12px;
-    color: var(--fg-2);
-    white-space: nowrap;
-  }
+  .topbar-date { font-size: 12px; color: var(--fg-2); white-space: nowrap; }
 
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
 
   .btn-primary {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--accent);
-    color: var(--accent-fg);
-    border: none;
-    border-radius: 6px;
-    padding: 7px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    white-space: nowrap;
-    transition: opacity 0.1s;
+    display: flex; align-items: center; gap: 6px;
+    background: var(--accent); color: var(--accent-fg);
+    border: none; border-radius: 6px;
+    padding: 7px 12px; font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    white-space: nowrap; transition: opacity 0.1s;
   }
 
   .btn-primary:hover { opacity: 0.9; }
 
   .btn-primary svg {
-    width: 13px;
-    height: 13px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 13px; height: 13px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
     flex-shrink: 0;
   }
 
   /* ── Content ── */
-  .content {
-    padding: 24px;
-    flex: 1;
-  }
+  .content { padding: 24px; flex: 1; }
 
-  /* ── Summary row ── */
-  .summary-row {
+  /* ── KPI cards ── */
+  .kpi-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
-  .summary-card {
+  .kpi-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 10px;
-    padding: 16px;
+    padding: 16px 18px;
     box-shadow: var(--card-shadow);
   }
 
-  .summary-label {
-    font-size: 11px;
-    font-weight: 600;
+  .kpi-label {
+    font-size: 11px; font-weight: 600;
     color: var(--fg-2);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    text-transform: uppercase; letter-spacing: 0.06em;
     margin-bottom: 6px;
   }
 
-  .summary-value {
-    font-size: 22px;
-    font-weight: 700;
+  .kpi-value {
+    font-size: 22px; font-weight: 700;
     color: var(--fg);
     letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
   }
 
-  .summary-sub {
-    font-size: 11px;
-    color: var(--fg-2);
-    margin-top: 4px;
+  .kpi-value.paid { color: var(--paid-fg); }
+
+  .kpi-sub {
+    font-size: 11px; color: var(--fg-2); margin-top: 4px;
   }
+
+  /* ── Chart card ── */
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 18px 20px 14px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 8px;
+  }
+
+  .chart-title {
+    font-size: 12px; font-weight: 600;
+    color: var(--fg-2);
+    text-transform: uppercase; letter-spacing: 0.07em;
+  }
+
+  .chart-subtitle {
+    font-size: 11px; color: var(--fg-3);
+  }
+
+  /* SVG chart wrapper */
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .chart-svg {
+    display: block;
+    width: 100%;
+    overflow: visible;
+  }
+
+  /* Tooltip */
+  .viz-tooltip {
+    position: absolute;
+    background: var(--viz-tooltip-bg);
+    color: var(--viz-tooltip-fg);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 9px;
+    border-radius: 6px;
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.1s;
+    z-index: 30;
+    font-variant-numeric: tabular-nums;
+    transform: translate(-50%, -100%) translateY(-6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .viz-tooltip.show { opacity: 1; }
 
   /* ── Invoice list ── */
   .list-header {
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
-    gap: 12px;
+    margin-bottom: 10px; gap: 12px;
   }
 
   .list-title {
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 12px; font-weight: 600;
     color: var(--fg-2);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    display: flex; align-items: center; gap: 6px;
   }
 
   .count-chip {
-    background: var(--card-border);
-    color: var(--fg-2);
-    font-size: 10px;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 99px;
+    background: var(--card-border); color: var(--fg-2);
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 99px;
     font-variant-numeric: tabular-nums;
   }
 
   .list-legend {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: var(--fg-3);
+    display: flex; align-items: center;
+    gap: 10px; font-size: 11px; color: var(--fg-3);
   }
 
   .legend-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
+    width: 7px; height: 7px;
+    border-radius: 50%; flex-shrink: 0;
   }
 
-  /* ── Invoice card ── */
-  .invoice-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  /* ── Invoice cards ── */
+  .invoice-list { display: flex; flex-direction: column; gap: 6px; }
 
   .invoice-card {
     background: var(--card-bg);
@@ -463,220 +452,117 @@
     box-shadow: var(--card-shadow);
     display: grid;
     grid-template-columns: auto 1fr auto auto auto;
-    align-items: center;
-    gap: 12px;
+    align-items: center; gap: 12px;
     transition: opacity 0.22s ease, transform 0.22s ease;
   }
 
-  .invoice-card.critical {
-    border-color: var(--critical-border);
-    background: var(--critical-bg);
-  }
+  .invoice-card.critical { border-color: var(--critical-border); background: var(--critical-bg); }
+  .invoice-card.major { border-color: var(--major-border); background: var(--major-bg); }
+  .invoice-card.paid-out { opacity: 0; transform: translateX(12px); }
 
-  .invoice-card.major {
-    border-color: var(--major-border);
-    background: var(--major-bg);
-  }
-
-  .invoice-card.paid-out {
-    opacity: 0;
-    transform: translateX(12px);
-  }
-
-  /* INV-# ID */
   .inv-id {
-    font-size: 11px;
-    font-weight: 700;
+    font-size: 11px; font-weight: 700;
     color: var(--fg-3);
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.02em;
-    white-space: nowrap;
-    min-width: 44px;
+    white-space: nowrap; min-width: 44px;
   }
 
-  /* Severity badge (left of name) */
   .severity-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    border-radius: 5px;
-    padding: 2px 7px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-    letter-spacing: 0.01em;
+    display: inline-flex; align-items: center; gap: 4px;
+    border-radius: 5px; padding: 2px 7px;
+    font-size: 11px; font-weight: 600;
+    white-space: nowrap; letter-spacing: 0.01em;
   }
 
-  .severity-badge .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .severity-badge .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
-  .badge-critical {
-    background: var(--critical-badge-bg);
-    color: var(--critical-label);
-  }
-
+  .badge-critical { background: var(--critical-badge-bg); color: var(--critical-label); }
   .badge-critical .dot { background: var(--critical-label); }
-
-  .badge-major {
-    background: var(--major-badge-bg);
-    color: var(--major-label);
-  }
-
+  .badge-major { background: var(--major-badge-bg); color: var(--major-label); }
   .badge-major .dot { background: var(--major-label); }
-
-  .badge-minor {
-    background: var(--minor-badge-bg);
-    color: var(--minor-label);
-  }
-
+  .badge-minor { background: var(--minor-badge-bg); color: var(--minor-label); }
   .badge-minor .dot { background: var(--minor-label); }
 
-  /* Invoice info */
-  .invoice-info {
-    min-width: 0;
-  }
+  .invoice-info { min-width: 0; }
 
   .invoice-name-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    display: flex; align-items: center;
+    gap: 8px; flex-wrap: wrap;
   }
 
   .invoice-customer {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fg);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 13px; font-weight: 600; color: var(--fg);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  .invoice-sub {
-    font-size: 11px;
-    color: var(--fg-2);
-    margin-top: 2px;
-  }
+  .invoice-sub { font-size: 11px; color: var(--fg-2); margin-top: 2px; }
 
-  /* Days timer badge */
   .timer-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--fg-2);
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--fg-2);
     background: var(--minor-badge-bg);
-    padding: 2px 7px;
-    border-radius: 5px;
+    padding: 2px 7px; border-radius: 5px;
     font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    flex-shrink: 0;
+    white-space: nowrap; flex-shrink: 0;
   }
 
-  .timer-badge.overdue {
-    color: var(--critical-label);
-    background: var(--critical-badge-bg);
-  }
+  .timer-badge.overdue { color: var(--critical-label); background: var(--critical-badge-bg); }
 
   .timer-badge svg {
-    width: 11px;
-    height: 11px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 11px; height: 11px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
     flex-shrink: 0;
   }
 
-  /* Amount */
   .invoice-amount {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--fg);
+    font-size: 13px; font-weight: 700; color: var(--fg);
     font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    text-align: right;
-    min-width: 90px;
+    white-space: nowrap; text-align: right; min-width: 90px;
   }
 
-  /* Mark paid button */
   .btn-resolve {
     border: 1px solid var(--card-border);
-    background: var(--card-bg);
-    color: var(--fg-2);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    white-space: nowrap;
+    background: var(--card-bg); color: var(--fg-2);
+    font-size: 11px; font-weight: 600;
+    padding: 5px 10px; border-radius: 6px;
+    cursor: pointer; white-space: nowrap;
     font-family: inherit;
     transition: background 0.1s, color 0.1s, border-color 0.1s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; align-items: center; gap: 5px;
   }
 
   .btn-resolve svg {
-    width: 11px;
-    height: 11px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 11px; height: 11px;
+    stroke: currentColor; fill: none;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
     flex-shrink: 0;
   }
 
-  .btn-resolve:hover {
-    background: #ea580c;
-    color: #ffffff;
-    border-color: #ea580c;
-  }
+  .btn-resolve:hover { background: #ea580c; color: #ffffff; border-color: #ea580c; }
 
   /* Empty state */
   .empty-state {
-    text-align: center;
-    color: var(--fg-2);
+    text-align: center; color: var(--fg-2);
     padding: 64px 16px;
     border: 1px dashed var(--card-border);
-    border-radius: 10px;
-    background: var(--card-bg);
+    border-radius: 10px; background: var(--card-bg);
   }
 
-  .empty-icon {
-    font-size: 32px;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .empty-state p {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--fg-2);
-    margin: 0;
-  }
+  .empty-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .empty-state p { font-size: 13px; font-weight: 500; color: var(--fg-2); }
 
   /* ── Responsive ── */
   @media (max-width: 640px) {
     .sidebar { display: none; }
-
     .topbar { padding: 0 16px; }
-
     .content { padding: 16px; }
-
-    .summary-row { grid-template-columns: 1fr 1fr; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
 
     .invoice-card {
       grid-template-columns: auto 1fr auto;
-      grid-template-rows: auto auto;
-      gap: 8px;
+      grid-template-rows: auto auto; gap: 8px;
     }
 
     .inv-id { grid-row: 1; }
@@ -735,10 +621,9 @@
 
 <!-- Main -->
 <div class="main">
-  <!-- Top bar -->
   <div class="topbar">
     <div class="topbar-left">
-      <span class="topbar-title">Overdue invoices</span>
+      <span class="topbar-title">Dashboard</span>
       <span class="topbar-date" id="todayDate"></span>
     </div>
     <div class="topbar-right">
@@ -749,24 +634,36 @@
     </div>
   </div>
 
-  <!-- Content -->
   <div class="content">
-    <!-- Summary cards -->
-    <div class="summary-row">
-      <div class="summary-card">
-        <div class="summary-label">Total owed</div>
-        <div class="summary-value" id="totalAmount">SGD 0</div>
-        <div class="summary-sub" id="invoiceCount">0 invoices</div>
+
+    <!-- KPI cards -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Total owed</div>
+        <div class="kpi-value" id="kpiTotal">SGD 0</div>
+        <div class="kpi-sub" id="kpiTotalSub">0 invoices overdue</div>
       </div>
-      <div class="summary-card">
-        <div class="summary-label">Critical (>30d)</div>
-        <div class="summary-value" id="criticalCount" style="color:var(--critical-label)">0</div>
-        <div class="summary-sub" id="criticalAmount">SGD 0</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Overdue count</div>
+        <div class="kpi-value" id="kpiCount" style="color:var(--critical-label)">0</div>
+        <div class="kpi-sub" id="kpiCountSub">invoices outstanding</div>
       </div>
-      <div class="summary-card">
-        <div class="summary-label">Avg days late</div>
-        <div class="summary-value" id="avgDays">0d</div>
-        <div class="summary-sub">across all overdue</div>
+      <div class="kpi-card">
+        <div class="kpi-label">Paid this month</div>
+        <div class="kpi-value paid" id="kpiPaid">SGD 0</div>
+        <div class="kpi-sub" id="kpiPaidSub">0 invoices resolved</div>
+      </div>
+    </div>
+
+    <!-- Bar chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <span class="chart-title">Amount owed by customer</span>
+        <span class="chart-subtitle">Overdue invoices only · SGD</span>
+      </div>
+      <div class="chart-wrap" id="chartWrap">
+        <svg class="chart-svg" id="chartSvg" aria-label="Bar chart: amount owed per customer"></svg>
+        <div class="viz-tooltip" id="vizTooltip"></div>
       </div>
     </div>
 
@@ -789,10 +686,12 @@
       <span class="empty-icon">✅</span>
       <p>All invoices resolved. Nice work.</p>
     </div>
-  </div>
-</div>
+
+  </div><!-- .content -->
+</div><!-- .main -->
 
 <script>
+  /* ── Data ── */
   const csvData = `customer,amount,due_date
 Tan Trading,1200,2026-10-01
 Lim Florist,450,2026-10-12
@@ -819,13 +718,17 @@ Teo Logistics,1500,2026-09-28`;
 
   let invoices = parseCSV(csvData);
 
-  function today() {
+  /* paid-this-month accumulator – tracks amounts resolved in this session */
+  let paidThisMonth = { count: 0, amount: 0 };
+
+  /* ── Helpers ── */
+  function todayDate() {
     const t = new Date(); t.setHours(0, 0, 0, 0); return t;
   }
 
   function daysLate(dueDateStr) {
     const due = new Date(dueDateStr + 'T00:00:00');
-    return Math.floor((today() - due) / 86400000);
+    return Math.floor((todayDate() - due) / 86400000);
   }
 
   function fmtSGD(n) {
@@ -848,24 +751,172 @@ Teo Logistics,1500,2026-09-28`;
     return 'Minor';
   }
 
+  /* ── Bar chart ── */
+  const PAD = { top: 8, right: 12, bottom: 44, left: 52 };
+  const BAR_RADIUS = 4;
+  const CHART_H = 180; /* total SVG height */
+  const PLOT_H = CHART_H - PAD.top - PAD.bottom;
+
+  function drawChart(overdue) {
+    const svg = document.getElementById('chartSvg');
+    const tooltip = document.getElementById('vizTooltip');
+    const wrap = document.getElementById('chartWrap');
+    svg.innerHTML = '';
+
+    if (overdue.length === 0) {
+      svg.setAttribute('height', '60');
+      svg.setAttribute('viewBox', '0 0 400 60');
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', '200'); t.setAttribute('y', '32');
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('fill', 'var(--fg-3)');
+      t.setAttribute('font-size', '12');
+      t.textContent = 'No overdue invoices';
+      svg.appendChild(t);
+      return;
+    }
+
+    /* Sort by amount desc for readability */
+    const items = [...overdue].sort((a, b) => b.amount - a.amount);
+    const maxAmt = Math.max(...items.map(i => i.amount));
+
+    /* Nice axis max: round up to nearest 500 */
+    const axisMax = Math.ceil(maxAmt / 500) * 500;
+
+    /* Tick values */
+    const tickCount = 4;
+    const ticks = Array.from({ length: tickCount + 1 }, (_, i) => Math.round(axisMax * i / tickCount));
+
+    const W = 600; /* internal SVG width – scales with container */
+    svg.setAttribute('viewBox', `0 0 ${W} ${CHART_H}`);
+    svg.setAttribute('height', CHART_H);
+
+    const plotW = W - PAD.left - PAD.right;
+    const barW = Math.max(8, (plotW / items.length) * 0.55);
+    const step = plotW / items.length;
+
+    /* Grid lines */
+    ticks.forEach(v => {
+      const y = PAD.top + PLOT_H - (v / axisMax) * PLOT_H;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', PAD.left);
+      line.setAttribute('x2', W - PAD.right);
+      line.setAttribute('y1', y);
+      line.setAttribute('y2', y);
+      line.setAttribute('stroke', 'var(--viz-grid)');
+      line.setAttribute('stroke-width', v === 0 ? '1.5' : '1');
+      svg.appendChild(line);
+
+      /* Y axis labels */
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', PAD.left - 6);
+      label.setAttribute('y', y + 4);
+      label.setAttribute('text-anchor', 'end');
+      label.setAttribute('fill', 'var(--viz-axis-label)');
+      label.setAttribute('font-size', '10');
+      label.setAttribute('font-family', 'Inter, system-ui, sans-serif');
+      label.textContent = v >= 1000 ? (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'k' : v;
+      svg.appendChild(label);
+    });
+
+    /* Bars */
+    items.forEach((inv, i) => {
+      const barH = Math.max(2, (inv.amount / axisMax) * PLOT_H);
+      const x = PAD.left + i * step + (step - barW) / 2;
+      const y = PAD.top + PLOT_H - barH;
+
+      /* Bar rect with top-only radius via path */
+      const r = Math.min(BAR_RADIUS, barH / 2);
+      const path = `M${x + r},${y} h${barW - 2*r} a${r},${r} 0 0 1 ${r},${r} v${barH - r} h-${barW} v-${barH - r} a${r},${r} 0 0 1 ${r},-${r}z`;
+      const bar = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      bar.setAttribute('d', path);
+      bar.setAttribute('fill', 'var(--viz-bar)');
+      bar.setAttribute('style', 'transition: fill 0.1s;');
+
+      /* Hit target (wider, full height) for easier hover */
+      const hit = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      hit.setAttribute('x', PAD.left + i * step);
+      hit.setAttribute('y', PAD.top);
+      hit.setAttribute('width', step);
+      hit.setAttribute('height', PLOT_H);
+      hit.setAttribute('fill', 'transparent');
+      hit.style.cursor = 'default';
+
+      svg.appendChild(bar);
+      svg.appendChild(hit);
+
+      /* Hover */
+      hit.addEventListener('mouseenter', (e) => {
+        bar.setAttribute('fill', 'var(--viz-bar-hover)');
+        tooltip.textContent = `${inv.customer} · ${fmtSGD(inv.amount)}`;
+        tooltip.classList.add('show');
+        positionTooltip(e, x + barW / 2, y);
+      });
+
+      hit.addEventListener('mousemove', (e) => {
+        positionTooltip(e, x + barW / 2, y);
+      });
+
+      hit.addEventListener('mouseleave', () => {
+        bar.setAttribute('fill', 'var(--viz-bar)');
+        tooltip.classList.remove('show');
+      });
+
+      /* X label – short name */
+      const shortName = inv.customer.split(' ')[0];
+      const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      xLabel.setAttribute('x', x + barW / 2);
+      xLabel.setAttribute('y', PAD.top + PLOT_H + 14);
+      xLabel.setAttribute('text-anchor', 'middle');
+      xLabel.setAttribute('fill', 'var(--viz-axis-label)');
+      xLabel.setAttribute('font-size', '10');
+      xLabel.setAttribute('font-family', 'Inter, system-ui, sans-serif');
+      xLabel.textContent = shortName;
+      svg.appendChild(xLabel);
+    });
+
+    function positionTooltip(e, barCenterX, barTopY) {
+      const wrapRect = wrap.getBoundingClientRect();
+      const svgRect = svg.getBoundingClientRect();
+      const scaleX = svgRect.width / W;
+      const scaleY = svgRect.height / CHART_H;
+
+      const tipX = (barCenterX * scaleX);
+      const tipY = (barTopY * scaleY);
+
+      tooltip.style.left = tipX + 'px';
+      tooltip.style.top = tipY + 'px';
+    }
+  }
+
+  /* ── Main render ── */
   function render() {
     const overdue = invoices
       .filter(inv => daysLate(inv.due_date) > 0)
       .sort((a, b) => daysLate(b.due_date) - daysLate(a.due_date));
 
     const total = overdue.reduce((s, inv) => s + inv.amount, 0);
-    const criticals = overdue.filter(inv => daysLate(inv.due_date) > 30);
-    const criticalTotal = criticals.reduce((s, inv) => s + inv.amount, 0);
-    const avgDays = overdue.length ? Math.round(overdue.reduce((s, inv) => s + daysLate(inv.due_date), 0) / overdue.length) : 0;
 
-    document.getElementById('totalAmount').textContent = fmtSGD(total);
-    document.getElementById('invoiceCount').textContent = overdue.length + (overdue.length === 1 ? ' invoice' : ' invoices') + ' overdue';
-    document.getElementById('criticalCount').textContent = criticals.length;
-    document.getElementById('criticalAmount').textContent = fmtSGD(criticalTotal);
-    document.getElementById('avgDays').textContent = avgDays + 'd';
-    document.getElementById('listCount').textContent = overdue.length;
+    /* KPI: total owed */
+    document.getElementById('kpiTotal').textContent = fmtSGD(total);
+    document.getElementById('kpiTotalSub').textContent = overdue.length + ' invoice' + (overdue.length !== 1 ? 's' : '') + ' overdue';
+
+    /* KPI: overdue count */
+    document.getElementById('kpiCount').textContent = overdue.length;
+    document.getElementById('kpiCountSub').textContent = 'invoice' + (overdue.length !== 1 ? 's' : '') + ' outstanding';
+
+    /* KPI: paid this month */
+    document.getElementById('kpiPaid').textContent = fmtSGD(paidThisMonth.amount);
+    document.getElementById('kpiPaidSub').textContent = paidThisMonth.count + ' invoice' + (paidThisMonth.count !== 1 ? 's' : '') + ' resolved';
+
+    /* Sidebar badge */
     document.getElementById('sidebarCount').textContent = overdue.length;
+    document.getElementById('listCount').textContent = overdue.length;
 
+    /* Chart */
+    drawChart(overdue);
+
+    /* Invoice list */
     const listEl = document.getElementById('invoiceList');
     const emptyEl = document.getElementById('emptyState');
     listEl.innerHTML = '';
@@ -901,7 +952,7 @@ Teo Logistics,1500,2026-09-28`;
           ${late}d late
         </div>
         <div class="invoice-amount">${fmtSGD(inv.amount)}</div>
-        <button class="btn-resolve" data-id="${inv.id}">
+        <button class="btn-resolve" data-id="${inv.id}" data-amount="${inv.amount}">
           <svg viewBox="0 0 11 11"><polyline points="1.5,6 4,8.5 9.5,2.5"/></svg>
           Resolve
         </button>
@@ -910,20 +961,23 @@ Teo Logistics,1500,2026-09-28`;
     });
 
     listEl.querySelectorAll('.btn-resolve').forEach(btn => {
-      btn.addEventListener('click', () => markPaid(btn.dataset.id));
+      btn.addEventListener('click', () => markPaid(btn.dataset.id, parseFloat(btn.dataset.amount)));
     });
   }
 
-  function markPaid(id) {
+  function markPaid(id, amount) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add('paid-out');
+    paidThisMonth.count += 1;
+    paidThisMonth.amount += amount;
     setTimeout(() => {
       invoices = invoices.filter(inv => inv.id !== id);
       render();
     }, 230);
   }
 
+  /* ── Init ── */
   document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-SG', {
     day: 'numeric', month: 'long', year: 'numeric'
   });
